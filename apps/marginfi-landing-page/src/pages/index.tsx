@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
       <div className="fixed top-[-10vw] right-[-25vw] md:top-[-25vw] md:right-[-25vw] w-[100vw] h-[67vw]">
-        <Image src="/hero.jpg" alt="marginfi logo" fill />
+        <Image src="/hero.jpg" alt="marginfi logo" fill priority />
       </div>
 
       <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
