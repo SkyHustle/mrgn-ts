@@ -15,7 +15,7 @@ const Home = () => {
         <div className="mb-6 max-w-7xl">across DeFi</div>
         <Link href={"https://app.marginfi.com"}>
           <Button
-            className="h-full w-[200px] min-w-fit text-xl flex justify-center items-center font-light normal-case rounded-[100px] h-12"
+            className="h-full w-[200px] min-w-fit text-xl flex justify-center items-center font-light normal-case rounded-[100px]"
             variant="text"
             style={{
               backgroundColor: "#DCE85D",
