@@ -36,6 +36,7 @@ const DesktopNavbar: FC = () => {
       state.userDataFetched,
       state.resetUserData,
     ]);
+
   const [lstUserDataFetched, resetLstUserData] = useLstStore((state) => [state.userDataFetched, state.resetUserData]);
   const [showBadges, currentFirebaseUser, userPointsData, setShowBadges, fetchPoints] = useUserProfileStore((state) => [
     state.showBadges,
