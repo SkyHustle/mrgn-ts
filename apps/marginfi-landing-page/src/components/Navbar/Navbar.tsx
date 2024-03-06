@@ -21,8 +21,8 @@ const Navbar: FC = () => {
               <Image src="/marginfi_logo.png" alt="marginfi logo" fill />
             </Link>
           </div>
-          <div className="absolute fixed left-0 right-0 flex justify-center items-center w-full h-full invisible lg:visible">
-            <div className="h-full w-[28%] flex min-w-fit max-w-[600px] flex justify-evenly">
+          <div className="fixed left-0 right-0 flex justify-center items-center w-full h-full invisible lg:visible">
+            <div className="h-full w-[28%] flex min-w-fit max-w-[600px] justify-evenly">
               <Link href={"https://medium.com/marginfi"} className="w-1/3 min-w-1/3 max-w-1/3">
                 <NavbarCenterItem text="Medium" />
               </Link>
