@@ -351,6 +351,7 @@ const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
   const init = React.useCallback(async () => {
     try {
+      // Initialize web3auth sdk
       const web3AuthInstance = new Web3AuthNoModal({
         clientId: process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID!,
         chainConfig: web3AuthChainConfig,
