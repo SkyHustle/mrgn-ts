@@ -1,12 +1,7 @@
 import React from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 // We're only breaking out the very top sub-components into their own files 🥺. <- 🫶
-import {
-  AccountSummary,
-  AssetsList,
-  UserPositions,
-  MultipleAccountsFoundWarning,
-} from "~/components";
+import { AccountSummary, AssetsList, UserPositions, MultipleAccountsFoundWarning } from "~/components";
 import { useBorrowLendState } from "~/context/BorrowLendContext";
 
 const Home = () => {
@@ -25,9 +20,7 @@ const Home = () => {
           overflowY: "scroll",
         }}
       >
-        {wallet.connected && userAccounts.length > 1 && (
-          <MultipleAccountsFoundWarning />
-        )}
+        {wallet.connected && userAccounts.length > 1 && <MultipleAccountsFoundWarning />}
         <AccountSummary />
         <AssetsList />
         {wallet.connected && <UserPositions />}

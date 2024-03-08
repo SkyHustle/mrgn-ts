@@ -18,15 +18,7 @@ const AssetRow: FC<{
   marginfiAccount: MarginfiAccount | null;
   marginfiClient: MarginfiClient | null;
   reloadUserData: () => Promise<void>;
-}> = ({
-  isInLendingMode,
-  isConnected,
-  bank,
-  bankMetadata,
-  marginfiAccount,
-  marginfiClient,
-  reloadUserData,
-}) => {
+}> = ({ isInLendingMode, isConnected, bank, bankMetadata, marginfiAccount, marginfiClient, reloadUserData }) => {
   const [borrowOrLendAmount, setBorrowOrLendAmount] = useState(0);
 
   // Reset b/l amounts on toggle
@@ -55,17 +47,12 @@ const AssetRow: FC<{
         toast.info(`Lending ${borrowOrLendAmount}`);
         await _marginfiAccount.deposit(borrowOrLendAmount, bank);
       } else {
-        if (_marginfiAccount === null)
-          throw Error("Marginfi account not ready");
+        if (_marginfiAccount === null) throw Error("Marginfi account not ready");
         toast.info(`Borrowing ${borrowOrLendAmount}`);
         await _marginfiAccount.deposit(borrowOrLendAmount, bank);
       }
     } catch (error: any) {
-      toast.error(
-        `Error while ${isInLendingMode ? "lending" : "borrowing"}: ${
-          error.message
-        }`
-      );
+      toast.error(`Error while ${isInLendingMode ? "lending" : "borrowing"}: ${error.message}`);
 
       setBorrowOrLendAmount(0);
 
@@ -75,81 +62,56 @@ const AssetRow: FC<{
         toast.error(`Error while reloading user data: ${error.message}`);
       }
     }
-  }, [
-    marginfiAccount,
-    marginfiClient,
-    isInLendingMode,
-    borrowOrLendAmount,
-    bank,
-    reloadUserData,
-  ]);
+  }, [marginfiAccount, marginfiClient, isInLendingMode, borrowOrLendAmount, bank, reloadUserData]);
 
   return (
     <TableRow
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      className="border-hidden" // @todo uncomment
+      className="flex justify-between items-center h-[78px] p-0 px-2 sm:p-2 lg:p-4 border-solid border-[#1C2125] border rounded-xl gap-2 lg:gap-4" // @todo uncomment
     >
-      <div className="flex justify-between items-center h-[78px] p-0 px-2 sm:p-2 lg:p-4 border-solid border-[#1C2125] border rounded-xl gap-2 lg:gap-4">
-        <AssetRowHeader
-          assetName={bank.label}
-          apy={apy}
-          icon={bankMetadata.icon}
-        />
-        {
-          <TableCell className="py-1 px-0 h-10 border-hidden flex justify-end items-center w-full max-w-[600px]">
+      <AssetRowHeader assetName={bank.label} apy={apy} icon={bankMetadata.icon} />
+      {
+        <TableCell className="py-1 px-0 h-10 border-hidden flex justify-end items-center w-full max-w-[600px]">
+          <AssetRowMetric
+            longLabel="Current Price"
+            shortLabel="Price"
+            value="$0"
+            borderRadius={isConnected ? "10px 0px 0px 10px" : "10px 0px 0px 10px"}
+          />
+          <AssetRowMetric
+            longLabel="Total Pool Deposits"
+            shortLabel="Deposits"
+            value="$0"
+            borderRadius={isConnected ? "" : "0px 10px 10px 0px"}
+          />
+          {isConnected && (
             <AssetRowMetric
-              longLabel="Current Price"
-              shortLabel="Price"
+              longLabel="Wallet Balance"
+              shortLabel="Balance"
               value="$0"
-              borderRadius={
-                isConnected ? "10px 0px 0px 10px" : "10px 0px 0px 10px"
-              }
+              borderRadius="0px 10px 10px 0px"
             />
-            <AssetRowMetric
-              longLabel="Total Pool Deposits"
-              shortLabel="Deposits"
-              value="$0"
-              borderRadius={isConnected ? "" : "0px 10px 10px 0px"}
-            />
-            {isConnected && (
-              <AssetRowMetric
-                longLabel="Wallet Balance"
-                shortLabel="Balance"
-                value="$0"
-                borderRadius="0px 10px 10px 0px"
-              />
-            )}
-          </TableCell>
-        }
+          )}
+        </TableCell>
+      }
 
-        {isConnected && (
-          <>
-            <TableCell className="py-1 px-0 h-10 min-w-[120px] border-hidden flex justify-center items-center hidden md:flex">
-              <AssetRowInputBox
-                value={borrowOrLendAmount}
-                setValue={setBorrowOrLendAmount}
-                disabled={!isConnected}
-              />
-            </TableCell>
-            <TableCell className="p-1 h-10 border-hidden flex justify-center items-center hidden md:table-cell">
-              <div className="h-full w-full flex justify-center items-center">
-                <AssetRowAction onClick={borrowOrLend}>
-                  {isInLendingMode ? "Lend" : "Borrow"}
-                </AssetRowAction>
-              </div>
-            </TableCell>
-          </>
-        )}
-      </div>
+      {isConnected && (
+        <>
+          <TableCell className="py-1 px-0 h-10 min-w-[120px] border-hidden flex justify-center items-center hidden md:flex">
+            <AssetRowInputBox value={borrowOrLendAmount} setValue={setBorrowOrLendAmount} disabled={!isConnected} />
+          </TableCell>
+          <TableCell className="p-1 h-10 border-hidden flex justify-center items-center hidden md:table-cell">
+            <div className="h-full w-full flex justify-center items-center">
+              <AssetRowAction onClick={borrowOrLend}>{isInLendingMode ? "Lend" : "Borrow"}</AssetRowAction>
+            </div>
+          </TableCell>
+        </>
+      )}
     </TableRow>
   );
 };
 
 export { AssetRow };
-function borrow(
-  borrowOrLendAmount: number,
-  bank: Bank,
-  marginfiAccount: MarginfiAccount | null
-) {
+function borrow(borrowOrLendAmount: number, bank: Bank, marginfiAccount: MarginfiAccount | null) {
   throw new Error("Function not implemented.");
 }

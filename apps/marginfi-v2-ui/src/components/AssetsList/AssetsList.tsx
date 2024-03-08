@@ -7,8 +7,7 @@ import AssetRow from "./AssetRow";
 
 const AssetsList: FC = () => {
   const [isInLendingMode, setIsInLendingMode] = useState(true);
-  const { banks, selectedAccount, reloadUserData, mfiClient } =
-    useBorrowLendState();
+  const { banks, selectedAccount, reloadUserData, mfiClient } = useBorrowLendState();
   const wallet = useWallet();
 
   return (
@@ -26,22 +25,20 @@ const AssetsList: FC = () => {
           <TableContainer>
             <Table className="table-fixed">
               <TableBody>
-                <div className="flex flex-col gap-4">
-                  {banks.map((bank) => (
-                    <AssetRow
-                      key={bank.publicKey.toBase58()}
-                      isInLendingMode={isInLendingMode}
-                      isConnected={wallet.connected}
-                      bank={bank}
-                      bankMetadata={{
-                        icon: "solana_logo.png",
-                      }}
-                      marginfiAccount={selectedAccount}
-                      marginfiClient={mfiClient}
-                      reloadUserData={reloadUserData}
-                    />
-                  ))}
-                </div>
+                {banks.map((bank) => (
+                  <AssetRow
+                    key={bank.publicKey.toBase58()}
+                    isInLendingMode={isInLendingMode}
+                    isConnected={wallet.connected}
+                    bank={bank}
+                    bankMetadata={{
+                      icon: "solana_logo.png",
+                    }}
+                    marginfiAccount={selectedAccount}
+                    marginfiClient={mfiClient}
+                    reloadUserData={reloadUserData}
+                  />
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

@@ -4,8 +4,7 @@ import { useBorrowLendState } from "../../context/BorrowLendContext";
 import UserPositionRow from "./UserPositionRow";
 
 const UserPositions: FC = () => {
-  const { accountSummary, selectedAccount, reloadUserData } =
-    useBorrowLendState();
+  const { accountSummary, selectedAccount, reloadUserData } = useBorrowLendState();
   const { isLending, isBorrowing } = useMemo(
     () => ({
       isLending: accountSummary.lendingAmount > 0,
@@ -17,10 +16,7 @@ const UserPositions: FC = () => {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2">
       {isLending && selectedAccount && (
-        <Card
-          elevation={0}
-          className="bg-transparent w-full p-0 grid min-w-[500px]"
-        >
+        <Card elevation={0} className="bg-transparent w-full p-0 grid min-w-[500px]">
           <div className="text-2xl my-8 text-white">Supplying</div>
           <TableContainer>
             <Table className="table-fixed">
@@ -42,10 +38,7 @@ const UserPositions: FC = () => {
       )}
       <div>
         {isBorrowing && selectedAccount && (
-          <Card
-            elevation={0}
-            className="bg-transparent w-full p-0 grid min-w-[500px]"
-          >
+          <Card elevation={0} className="bg-transparent w-full p-0 grid min-w-[500px]">
             <div className="text-2xl my-8 text-white">Borrowing</div>
             <TableContainer>
               <Table className="table-fixed">
