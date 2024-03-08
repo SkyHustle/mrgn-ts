@@ -208,6 +208,7 @@ class MarginfiClient {
     if (bankAddresses && bankAddresses.length > 0) {
       debug("Using preloaded bank addresses, skipping gpa call", bankAddresses.length, "banks");
       let bankAccountsData = await program.account.bank.fetchMultiple(bankAddresses);
+      // bankAccountsData is returning an array of nulls
       for (let i = 0; i < bankAccountsData.length; i++) {
         bankDatasKeyed.push({
           address: bankAddresses[i],
@@ -224,6 +225,7 @@ class MarginfiClient {
       }));
     }
 
+    // Breaking Here! data is returning null
     // Batch-fetch the group account and all the oracle accounts as per the banks retrieved above
     const [groupAi, ...priceFeedAis] = await program.provider.connection.getMultipleAccountsInfo(
       [groupAddress, ...bankDatasKeyed.map((b) => b.data.config.oracleKeys[0])],
@@ -487,7 +489,7 @@ class MarginfiClient {
 
     dbg("Created Marginfi account %s", sig);
 
-    return (opts?.dryRun  || createOpts?.newAccountKey)
+    return opts?.dryRun || createOpts?.newAccountKey
       ? Promise.resolve(undefined as unknown as MarginfiAccountWrapper)
       : MarginfiAccountWrapper.fetch(newAccountKey, this, opts?.commitment);
   }

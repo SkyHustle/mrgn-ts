@@ -113,7 +113,7 @@ export function clearAccountCache(authority: PublicKey) {
     if (error instanceof Error) {
       throw new Error(`Error clearing account cache.`);
     } else {
-      throw new Error('An unknown error occurred while clearing account cache.');
+      throw new Error("An unknown error occurred while clearing account cache.");
     }
   }
 }
@@ -152,6 +152,7 @@ const stateCreator: StateCreator<MrgnlendState, [], []> = (set, get) => ({
   }) => {
     try {
       const { MarginfiClient } = await import("@mrgnlabs/marginfi-client-v2");
+
       const { loadBankMetadatas, loadTokenMetadatas } = await import("@mrgnlabs/mrgn-common");
 
       let userDataFetched = false;
