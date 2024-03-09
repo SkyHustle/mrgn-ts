@@ -10,12 +10,7 @@ interface AssetRowHeader {
   textBold?: boolean;
 }
 
-const AssetRowHeader: FC<AssetRowHeader> = ({
-  assetName,
-  apy,
-  icon,
-  textBold,
-}) => (
+const AssetRowHeader: FC<AssetRowHeader> = ({ assetName, apy, icon, textBold }) => (
   <TableCell className="text-white h-full w-full border-hidden max-w-fit pr-0 lg:pr-20">
     <div
       className="h-full w-full flex justify-center p-0 text-white"
@@ -25,15 +20,7 @@ const AssetRowHeader: FC<AssetRowHeader> = ({
         justifyContent: icon ? "flex-start" : "center",
       }}
     >
-      {icon && (
-        <Image
-          src={`/${icon}`}
-          alt={icon}
-          height={"15"}
-          width={"15"}
-          className="mr-2"
-        />
-      )}
+      {icon && <Image src={`/${icon}`} alt={icon} height={15} width={15} className="mr-2 w-auto" />}
       <div>
         <div
           style={{

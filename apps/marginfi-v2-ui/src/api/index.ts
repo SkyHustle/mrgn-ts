@@ -1,7 +1,5 @@
 import { MarginfiClient, nativeToUi } from "@mrgnlabs/marginfi-client-v2";
-import MarginfiAccount, {
-  MarginRequirementType,
-} from "@mrgnlabs/marginfi-client-v2/src/account";
+import MarginfiAccount, { MarginRequirementType } from "@mrgnlabs/marginfi-client-v2/src/account";
 import Bank from "@mrgnlabs/marginfi-client-v2/src/bank";
 import { toast } from "react-toastify";
 import { AccountSummary } from "~/types";
@@ -14,17 +12,11 @@ const DEFAULT_ACCOUNT_SUMMARY = {
   positions: [],
 };
 
-function computeAccountSummary(
-  marginfiAccount: MarginfiAccount
-): AccountSummary {
-  const equityComponents = marginfiAccount.getHealthComponents(
-    MarginRequirementType.Equity
-  );
+function computeAccountSummary(marginfiAccount: MarginfiAccount): AccountSummary {
+  const equityComponents = marginfiAccount.getHealthComponents(MarginRequirementType.Equity);
 
   return {
-    balance: equityComponents.assets
-      .minus(equityComponents.liabilities)
-      .toNumber(),
+    balance: equityComponents.assets.minus(equityComponents.liabilities).toNumber(),
     lendingAmount: equityComponents.assets.toNumber(),
     borrowingAmount: equityComponents.liabilities.toNumber(),
     apy: marginfiAccount.computeApy(), // TODO: prob pff, wrote something quick for this
@@ -38,9 +30,7 @@ function computeAccountSummary(
         amount: isLending
           ? nativeToUi(amounts.assets.toNumber(), bank.mintDecimals)
           : nativeToUi(amounts.liabilities.toNumber(), bank.mintDecimals),
-        usdValue: isLending
-          ? usdValues.assets.toNumber()
-          : usdValues.liabilities.toNumber(),
+        usdValue: isLending ? usdValues.assets.toNumber() : usdValues.liabilities.toNumber(),
         assetName: bank.label,
         assetMint: bank.mint,
         isLending,

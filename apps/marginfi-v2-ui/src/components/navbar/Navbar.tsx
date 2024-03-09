@@ -26,16 +26,13 @@ const Navbar: FC = () => {
           }}
         >
           <div className="h-full relative flex justify-start items-center z-10">
-            <Link
-              href={"/"}
-              className="relative w-[18.68px] h-[16.54px] mr-4 z-10"
-            >
-              <Image src="/marginfi_logo.png" alt="marginfi logo" fill />
+            <Link href={"/"} className="relative w-[18.68px] h-[16.54px] mr-4 z-10">
+              <Image src="/marginfi_logo.png" alt="marginfi logo" width={32} height={32} />
             </Link>
           </div>
 
           {/* // @todo spacing between items looks weird at lg breakpoint */}
-          <div className="absolute fixed left-0 right-0 flex justify-center items-center w-full h-full invisible lg:visible">
+          <div className="absolute left-0 right-0 flex justify-center items-center w-full h-full invisible lg:visible">
             <div className="h-full w-[28%] flex">
               <NavbarCenterItem text="mrgnlend" textFormat="lowercase" />
               <NavbarCenterItem text="Markets" disabled />
@@ -71,9 +68,7 @@ const NavbarCenterItem: FC<NavbarCenterItemProps> = ({
   disabled,
 }) => (
   <Button
-    className={`h-full w-1/4 max-w-1/4 text-xs flex justify-center items-center ${
-      textFormat || "normal-case"
-    }`}
+    className={`h-full w-1/4 max-w-1/4 text-xs flex justify-center items-center ${textFormat || "normal-case"}`}
     variant="text"
     disabled={disabled}
     style={{
@@ -95,8 +90,7 @@ const NavbarCenterItem: FC<NavbarCenterItemProps> = ({
 // 1b. Dynamic wallet
 
 const WalletMultiButtonDynamic = dynamic(
-  async () =>
-    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
   { ssr: false }
 );
 
@@ -104,14 +98,7 @@ const WalletButton: FC = () => (
   <WalletMultiButtonDynamic
     className={styles["wallet-button"]}
     // @todo height / width doesn't seem to be making a difference here
-    startIcon={
-      <Image
-        src="/wallet_icon.svg"
-        alt="wallet icon"
-        width={18.9}
-        height={18.9}
-      />
-    }
+    startIcon={<Image src="/wallet_icon.svg" alt="wallet icon" width={18.9} height={18.9} />}
   />
 );
 
