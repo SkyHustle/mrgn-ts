@@ -1,21 +1,9 @@
 import React from "react";
-import {
-  getConfig,
-  MarginfiClient,
-  MarginfiReadonlyClient,
-} from "@mrgnlabs/marginfi-client-v2";
+import { getConfig, MarginfiClient, MarginfiReadonlyClient } from "@mrgnlabs/marginfi-client-v2";
 import MarginfiAccount from "@mrgnlabs/marginfi-client-v2/src/account";
 import Bank from "@mrgnlabs/marginfi-client-v2/src/bank";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
-import {
-  FC,
-  useState,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import { FC, useState, createContext, useContext, useEffect, useMemo, useCallback } from "react";
 import { computeAccountSummary, DEFAULT_ACCOUNT_SUMMARY } from "~/api";
 import { AccountSummary } from "~/types";
 
@@ -41,28 +29,21 @@ const BorrowLendStateProvider: FC<{
 
   // User-agnostic state
   const [fetching, setFetching] = useState<boolean>(true);
-  const [mfiReadonlyClient, setMfiReadonlyClient] =
-    useState<MarginfiReadonlyClient>();
+  const [mfiReadonlyClient, setMfiReadonlyClient] = useState<MarginfiReadonlyClient>();
   const [mfiClient, setMfiClient] = useState<MarginfiClient | null>(null);
   const [banks, setBanks] = useState<Bank[]>([]);
 
   // User-specific state
   const [userAccounts, setUserAccounts] = useState<MarginfiAccount[]>([]);
-  const [selectedAccount, setSelectedAccount] =
-    useState<MarginfiAccount | null>(null);
-  const [accountSummary, setAccountSummary] = useState<AccountSummary>(
-    DEFAULT_ACCOUNT_SUMMARY
-  );
+  const [selectedAccount, setSelectedAccount] = useState<MarginfiAccount | null>(null);
+  const [accountSummary, setAccountSummary] = useState<AccountSummary>(DEFAULT_ACCOUNT_SUMMARY);
 
   useEffect(() => {
     (async function () {
-      const roClient = await MarginfiReadonlyClient.fetch(
-        mfiConfig,
-        connection
-      );
+      const roClient = await MarginfiReadonlyClient.fetch(mfiConfig, connection);
       setMfiReadonlyClient(roClient);
 
-      console.log(anchorWallet);
+      console.log("anchorWallet ", anchorWallet!.publicKey.toString());
       if (!anchorWallet) return;
 
       const client = await MarginfiClient.fetch(
@@ -71,7 +52,7 @@ const BorrowLendStateProvider: FC<{
         anchorWallet,
         connection
       );
-      console.log("huh", client);
+      console.log("MarginFiClient ", client);
 
       setMfiClient(client);
     })();
@@ -125,9 +106,7 @@ const BorrowLendStateProvider: FC<{
 const useBorrowLendState = () => {
   const context = useContext(BorrowLendContext);
   if (!context) {
-    throw new Error(
-      "useBorrowLendState must be used within a BorrowLendStateProvider"
-    );
+    throw new Error("useBorrowLendState must be used within a BorrowLendStateProvider");
   }
 
   return context;
