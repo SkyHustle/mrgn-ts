@@ -1,10 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   BackpackWalletAdapter,
@@ -23,10 +20,10 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { ToastContainer } from "react-toastify";
 
 // Vivid
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-  import("vivid-studio").then((v) => v.run());
-  import("vivid-studio/style.css");
-}
+// if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+//   import("vivid-studio").then((v) => v.run());
+//   import("vivid-studio/style.css");
+// }
 
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
