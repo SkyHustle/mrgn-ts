@@ -97,10 +97,10 @@ const AssetRow: FC<{
 
       {isConnected && (
         <>
-          <TableCell className="py-1 px-0 h-10 min-w-[120px] border-hidden flex justify-center items-center hidden md:flex">
+          <TableCell className="py-1 px-0 h-10 min-w-[120px] border-hidden flex justify-center items-center md:flex">
             <AssetRowInputBox value={borrowOrLendAmount} setValue={setBorrowOrLendAmount} disabled={!isConnected} />
           </TableCell>
-          <TableCell className="p-1 h-10 border-hidden flex justify-center items-center hidden md:table-cell">
+          <TableCell className="p-1 h-10 border-hidden flex justify-center items-center md:table-cell">
             <div className="h-full w-full flex justify-center items-center">
               <AssetRowAction onClick={borrowOrLend}>{isInLendingMode ? "Lend" : "Borrow"}</AssetRowAction>
             </div>
