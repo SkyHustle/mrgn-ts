@@ -42,12 +42,7 @@ class Bank {
 
   private priceData: PriceData;
 
-  constructor(
-    label: string,
-    address: PublicKey,
-    rawData: BankData,
-    priceData: PriceData
-  ) {
+  constructor(label: string, address: PublicKey, rawData: BankData, priceData: PriceData) {
     this.label = label;
     this.publicKey = address;
 
@@ -55,12 +50,8 @@ class Bank {
     this.mintDecimals = rawData.mintDecimals;
     this.group = rawData.group;
 
-    this.depositShareValue = wrappedI80F48toBigNumber(
-      rawData.depositShareValue
-    );
-    this.liabilityShareValue = wrappedI80F48toBigNumber(
-      rawData.liabilityShareValue
-    );
+    this.depositShareValue = wrappedI80F48toBigNumber(rawData.depositShareValue);
+    this.liabilityShareValue = wrappedI80F48toBigNumber(rawData.liabilityShareValue);
 
     this.liquidityVault = rawData.liquidityVault;
     this.liquidityVaultBump = rawData.liquidityVaultBump;
@@ -75,51 +66,25 @@ class Bank {
     this.feeVaultAuthorityBump = rawData.feeVaultAuthorityBump;
 
     this.config = {
-      depositWeightInit: wrappedI80F48toBigNumber(
-        rawData.config.depositWeightInit
-      ),
-      depositWeightMaint: wrappedI80F48toBigNumber(
-        rawData.config.depositWeightMaint
-      ),
-      liabilityWeightInit: wrappedI80F48toBigNumber(
-        rawData.config.liabilityWeightInit
-      ),
-      liabilityWeightMaint: wrappedI80F48toBigNumber(
-        rawData.config.liabilityWeightMaint
-      ),
+      depositWeightInit: wrappedI80F48toBigNumber(rawData.config.depositWeightInit),
+      depositWeightMaint: wrappedI80F48toBigNumber(rawData.config.depositWeightMaint),
+      liabilityWeightInit: wrappedI80F48toBigNumber(rawData.config.liabilityWeightInit),
+      liabilityWeightMaint: wrappedI80F48toBigNumber(rawData.config.liabilityWeightMaint),
       maxCapacity: nativeToUi(rawData.config.maxCapacity, this.mintDecimals),
       pythOracle: rawData.config.pythOracle,
       interestRateConfig: {
-        insuranceFeeFixedApr: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.insuranceFeeFixedApr
-        ),
-        maxInterestRate: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.maxInterestRate
-        ),
-        insuranceIrFee: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.insuranceIrFee
-        ),
-        optimalUtilizationRate: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.optimalUtilizationRate
-        ),
-        plateauInterestRate: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.optimalUtilizationRate
-        ),
-        protocolFixedFeeApr: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.protocolFixedFeeApr
-        ),
-        protocolIrFee: wrappedI80F48toBigNumber(
-          rawData.config.interestRateConfig.protocolIrFee
-        ),
+        insuranceFeeFixedApr: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.insuranceFeeFixedApr),
+        maxInterestRate: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.maxInterestRate),
+        insuranceIrFee: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.insuranceIrFee),
+        optimalUtilizationRate: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.optimalUtilizationRate),
+        plateauInterestRate: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.optimalUtilizationRate),
+        protocolFixedFeeApr: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.protocolFixedFeeApr),
+        protocolIrFee: wrappedI80F48toBigNumber(rawData.config.interestRateConfig.protocolIrFee),
       },
     };
 
-    this.totalDepositShares = wrappedI80F48toBigNumber(
-      rawData.totalDepositShares
-    );
-    this.totalLiabilityShares = wrappedI80F48toBigNumber(
-      rawData.totalLiabilityShares
-    );
+    this.totalDepositShares = wrappedI80F48toBigNumber(rawData.totalDepositShares);
+    this.totalLiabilityShares = wrappedI80F48toBigNumber(rawData.totalLiabilityShares);
 
     this.priceData = priceData;
   }
@@ -133,9 +98,7 @@ class Bank {
   }
 
   public async reloadPriceData(connection: Connection) {
-    const pythPriceAccount = await connection.getAccountInfo(
-      this.config.pythOracle
-    );
+    const pythPriceAccount = await connection.getAccountInfo(this.config.pythOracle);
     this.priceData = parsePriceData(pythPriceAccount!.data);
   }
 
@@ -179,11 +142,7 @@ class Bank {
     );
   }
 
-  public getUsdValue(
-    quantity: BigNumber,
-    priceBias: PriceBias,
-    weight?: BigNumber
-  ): BigNumber {
+  public getUsdValue(quantity: BigNumber, priceBias: PriceBias, weight?: BigNumber): BigNumber {
     const price = this.getPrice(priceBias);
     return quantity
       .times(price)
@@ -196,9 +155,7 @@ class Bank {
     const confidenceRange = this.priceData.emaConfidence;
 
     const basePriceVal = new BigNumber(basePrice.value);
-    const confidenceRangeVal = new BigNumber(confidenceRange.value).times(
-      PYTH_PRICE_CONF_INTERVALS
-    );
+    const confidenceRangeVal = new BigNumber(confidenceRange.value).times(PYTH_PRICE_CONF_INTERVALS);
 
     switch (priceBias) {
       case PriceBias.Lowest:
@@ -211,9 +168,7 @@ class Bank {
   }
 
   // Return deposit weight based on margin requirement types
-  public getAssetWeight(
-    marginRequirementType: MarginRequirementType
-  ): BigNumber {
+  public getAssetWeight(marginRequirementType: MarginRequirementType): BigNumber {
     switch (marginRequirementType) {
       case MarginRequirementType.Init:
         return this.config.depositWeightInit;
@@ -226,9 +181,7 @@ class Bank {
     }
   }
 
-  public getLiabilityWeight(
-    marginRequirementType: MarginRequirementType
-  ): BigNumber {
+  public getLiabilityWeight(marginRequirementType: MarginRequirementType): BigNumber {
     switch (marginRequirementType) {
       case MarginRequirementType.Init:
         return this.config.liabilityWeightInit;
@@ -241,10 +194,7 @@ class Bank {
     }
   }
 
-  public getQuantityFromUsdValue(
-    usdValue: BigNumber,
-    priceBias: PriceBias
-  ): BigNumber {
+  public getQuantityFromUsdValue(usdValue: BigNumber, priceBias: PriceBias): BigNumber {
     const price = this.getPrice(priceBias);
     return usdValue.div(price);
   }
@@ -253,12 +203,7 @@ class Bank {
     lendingRate: BigNumber;
     borrowingRate: BigNumber;
   } {
-    const {
-      insuranceFeeFixedApr,
-      insuranceIrFee,
-      protocolFixedFeeApr,
-      protocolIrFee,
-    } = this.config.interestRateConfig;
+    const { insuranceFeeFixedApr, insuranceIrFee, protocolFixedFeeApr, protocolIrFee } = this.config.interestRateConfig;
 
     const rateFee = insuranceFeeFixedApr.plus(protocolFixedFeeApr);
     const fixedFee = insuranceIrFee.plus(protocolIrFee);
@@ -267,16 +212,13 @@ class Bank {
     const utilizationRate = this.getUtilizationRate();
 
     const lendingRate = interestRate.times(utilizationRate);
-    const borrowingRate = interestRate
-      .times(new BigNumber(1).plus(rateFee))
-      .plus(fixedFee);
+    const borrowingRate = interestRate.times(new BigNumber(1).plus(rateFee)).plus(fixedFee);
 
     return { lendingRate, borrowingRate };
   }
 
   private interestRateCurve(): BigNumber {
-    const { optimalUtilizationRate, plateauInterestRate, maxInterestRate } =
-      this.config.interestRateConfig;
+    const { optimalUtilizationRate, plateauInterestRate, maxInterestRate } = this.config.interestRateConfig;
 
     const utilizationRate = this.getUtilizationRate();
 

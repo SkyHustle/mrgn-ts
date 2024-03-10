@@ -10,6 +10,12 @@ const AssetsList: FC = () => {
   const { banks, selectedAccount, reloadUserData, mfiClient } = useBorrowLendState();
   const wallet = useWallet();
 
+  console.log("banks ", banks);
+  console.log("selectedAccount ", selectedAccount);
+  console.log("reloadUserData ", reloadUserData);
+  console.log("mfiClient ", mfiClient);
+  console.log("isInLendingMode ", isInLendingMode);
+
   return (
     <>
       <div className="col-span-full">
