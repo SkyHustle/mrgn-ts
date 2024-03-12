@@ -43,7 +43,6 @@ const BorrowLendStateProvider: FC<{
       const roClient = await MarginfiReadonlyClient.fetch(mfiConfig, connection);
       setMfiReadonlyClient(roClient);
 
-      console.log("anchorWallet ", anchorWallet!.publicKey.toString());
       if (!anchorWallet) return;
 
       const client = await MarginfiClient.fetch(
@@ -73,6 +72,7 @@ const BorrowLendStateProvider: FC<{
   // Update account-agnostic state
   useEffect(() => {
     if (!mfiReadonlyClient) return;
+    console.log("mfiReadonlyClient ", mfiReadonlyClient);
     setBanks([...mfiReadonlyClient.group.banks.values()]);
   }, [mfiReadonlyClient]);
 

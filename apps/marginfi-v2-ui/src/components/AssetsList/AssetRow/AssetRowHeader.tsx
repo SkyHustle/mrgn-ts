@@ -20,7 +20,7 @@ const AssetRowHeader: FC<AssetRowHeader> = ({ assetName, apy, icon, textBold }) 
         justifyContent: icon ? "flex-start" : "center",
       }}
     >
-      {icon && <Image src={`/${icon}`} alt={icon} height={15} width={15} className="mr-2 w-auto" />}
+      {icon && <Image src={`/${icon}`} alt={icon} height={15} width={15} className="mr-2" />}
       <div>
         <div
           style={{
